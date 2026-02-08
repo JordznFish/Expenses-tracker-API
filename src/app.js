@@ -11,6 +11,8 @@
  * 1. req.url: string (URL)
  * 2. req.headers: JSON (Metadata; E.g. who, what browser, what language)
  * 3. req.body: JSON (Data from user; E.g. Username, password, profile)
+ * 4. req.params: Path variable (E.g. :id)
+ * 5. req.query: Query string (Optional filter E.g. ?name1=value1&name2=value2)
  * 
  * Status convention
  * 200: Success
@@ -22,10 +24,23 @@
  * env global variables are saved into RAM temporary to give me access globally when I run my scripts
  * 
  * POSTGRES
- * Login: psql -U postgres 
- * CREATE DATABASE <table_name>
+ * Outside lobby:
+ * Login: psql -U postgres
+ * Login to specific database: psql -U postgres -d <database_name> 
+ * 
+ * Inside lobby
  * list all tables: \l
  * Connect to a table: \c <table_name>
+ * Display Tables in current database: \dt
+ * Describe a table: \d <table_name>
+ * Display Users roles and permissions: \du
+ * Quit psql: \q
+ * 
+ * 
+ * SQL 
+ * CREATE TABLE <table_name> (
+ *  column_name data_type column_constraint
+ *  column_name data_type column_constraint);
  */
 require('dotenv').config();
 

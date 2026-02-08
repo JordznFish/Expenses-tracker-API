@@ -74,12 +74,25 @@ backend/
 
 Core tables:
 - `users`
+  - id (PK)
+  - email 
+  - password_hash
+  - created_at 
 - `expenses`
+  - id (PK)
+  - name 
 - `categories`
+  - id (PK)
+  - user_id
+  - category_id
+  - amount
+  - description
+  - expense_date
+  - created_at 
 
 Key concepts applied:
-- Primary keys
-- Foreign key relationships
+- Primary keys (PK)
+- Foreign key relationships (FK)
 - NOT NULL and CHECK constraints
 - Indexed columns for query performance
 
