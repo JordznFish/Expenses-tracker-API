@@ -78,10 +78,10 @@ Core tables:
   - email 
   - password_hash
   - created_at 
-- `expenses`
+- `categories`
   - id (PK)
   - name 
-- `categories`
+- `expenses`
   - id (PK)
   - user_id
   - category_id
