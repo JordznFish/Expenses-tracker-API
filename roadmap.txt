@@ -1,0 +1,58 @@
+FOUNDATION
+│
+├── Phase 0: Project Setup (11%)
+│     ├── package.json [DONE]
+│     ├── Express server [DONE]
+│     ├── dotenv [DONE]
+│     └── nodemon [DONE]
+│
+├── Phase 1: Database Foundation (22%)
+│     ├── PostgreSQL setup [DONE]
+│     ├── schema.sql [DONE]
+│     ├── constraints [DONE]
+│     ├── indexes [DONE]
+│     └── db connection (pg Pool) [DONE]
+│
+├── Phase 2: Core Architecture (33%)
+│     ├── Folder structure [DONE]
+│     ├── Route → Controller separation [DONE]
+│     ├── Error handling pattern [DONE]
+│     └── Health check verification [DONE]
+│
+├── Phase 3: Authentication Layer 
+│     ├── Register (validation → hash → insert) [CURRENT STAGE]
+│     ├── Login (query → compare → JWT)
+│     ├── Auth middleware
+│     └── Protected test route
+│
+├── Phase 4: Expense CRUD (Secured)
+│     ├── Create expense
+│     ├── Get expenses (user scoped)
+│     ├── Update expense
+│     ├── Delete expense
+│     ├── JOIN with categories
+│     └── Filtering & pagination
+│
+├── Phase 5: Validation & Error Hardening
+│     ├── Duplicate email handling
+│     ├── Invalid token handling
+│     ├── SQL error handling
+│     └── Global error middleware
+│
+├── Phase 6: Code Quality & Structure
+│     ├── Service layer extraction
+│     ├── Environment separation
+│     ├── Logging middleware
+│     └── Response formatting consistency
+│
+├── Phase 7: Testing
+│     ├── Manual API testing (Postman)
+│     ├── Edge case tests
+│     └── Optional: Jest integration tests
+│
+└── Phase 8: Optional Enhancements
+      ├── TypeScript
+      ├── Rate limiting
+      ├── Refresh tokens
+      ├── Docker
+      └── React frontend
