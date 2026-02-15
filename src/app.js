@@ -27,6 +27,9 @@
  * Outside lobby:
  * Login: psql -U postgres
  * Login to specific database: psql -U postgres -d <database_name> 
+ *  INSERT 0 5: You just inserted 5 rows at once using a bulk insert.
+    UPDATE 10: You just updated 10 existing rows in the database.
+    DELETE 1: You successfully deleted 1 row.
  * 
  * Inside lobby
  * list all tables: \l
@@ -38,26 +41,66 @@
  * 
  * 
  * SQL 
+ * "psql -U postgres -d expense_tracker -f db/schema.sql"
  * CREATE TABLE <table_name> (
  *  column_name data_type column_constraint
  *  column_name data_type column_constraint);
+ * 
+ * INSERT INTO <table_name> (column, ...) VALUES (value, ...)
  */
+
+/**
+ * ============================================================
+ * MAIN APPLICATION ENTRY
+ * ============================================================
+ * 
+ * Responsibilities:
+ * - Load environment variables
+ * - Initialize Express app
+ * - Register global middleware
+ * - Mount routes
+ * - Start HTTP server
+ * 
+ * TODO:
+ * [DONE] Confirm dotenv loads before anything else
+ * [] Verify DB connection on startup
+ * [ ] Add global error handler (later)
+ * [ ] Add request logging middleware (later)
+ */
+
+// Load environment variables first
 require('dotenv').config();
 
 const express = require('express');
+const pool = require('../db/db');
 const app = express();
 
-//Translator for express: HTTP request (string) -> json object
+//Middleware: Translator for express: HTTP request (string) -> json object
 app.use(express.json());
+
+//TODO: SELF-EXECUTING ANONYMOUS FUNCTION: A safeguard verifies the database (async： )
+(async () => {
+    try {
+        await pool.query('SELECT 1');
+        console.log('Successfully connected to Database!');
+    } catch (err) {
+        console.log('Unexpected error: ', err);
+        process.exit(1);
+    }
+})();
 
 app.get('/health', (req, res) => {
     res.json({
         success: true,
         message: 'Server is running',
+        timestamp: new Date(),
         data: null
     });
-})
+});
 
+// TODO: Import your real routes here later (e.g., app.use('/api/expenses', expenseRoutes))
+
+// START SERVER
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
