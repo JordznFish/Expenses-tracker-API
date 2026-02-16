@@ -49,62 +49,34 @@
  * INSERT INTO <table_name> (column, ...) VALUES (value, ...)
  */
 
+### Phase 3 - Step 1: Registration
+Work flow: auth.controller.js -> authRoutes.js -> app.js
+**Key takeaways:**
+1) app.query() must come with await
+2) bcrypt.hash() must come with await
+3) json file only accepts "" double quotes, on both data and value 
+4) wrap multiple functions or data in a object to export
 
+### Phase 3 - Step 2: Login + JWT Issuance 
+Work flow:
+1. Receive email + password
+2. Validate Input
+3. Query user from DB
+4. Compare password (bcrypt.compare)
+5. Generate JWT
+6. Return token
+**Key takeaways**
+1) JWT Methods 
+   jwt.sign(payload, secret, option) => Creating the token
+      payload: an object containing user info. E.g. {id: 1}
+      secret: A private string used to lock the token
+      options: Usually {expiresIn: 'time'}
+   jwt.verify(token, secret) => Check the token is real and hasn't expired
+      token: 
+      secret
+2) Bcrypt Methods
+   bcrypt.compare(plainText, hashed_Password in db) => returns Promise<boolean>
 
-const pool = require('../../db/db');
-const bcrypt = require('bcrypt');
+### Phase 3 - Step 3: Auth middleware (JWT verification)
+=> Allow request or reject request to protect user data
 
-//We assume we're using GET/POST method
-const register = async (req, res) => {
-    try {
-        const {email, password} = req.body;
-        
-        //Basic validation: if email OR password are empty
-        if (!email || !password) {
-            return res.json({
-                success: false,
-                message: 'Email and password are required'
-            });
-        }
-
-        // Check if email already exists: query info from database
-        // use $num for security
-        // return var is an object, but we just want 'rows' (list)
-        const existingUser = await pool.query(
-            'SELECT id FROM users WHERE email = $1', [email]
-        );
-
-        if (existingUser.rows.length > 0) {
-            return res.json({
-                success: false,
-                message: 'Email already registered'
-            });
-        }
-
-        // Hash password with 10 salt rounds
-        // Use bcrypt
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        // Insert registered info into database 
-        // Use $num for security
-        const result = await pool.query(
-            'INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id, email, created_at',
-            [email, hashedPassword]
-        );
-
-        // Return if true 
-        return res.json({
-            success: true,
-            message: 'User registered successfully',
-            data: result.rows[0]
-        });
-    } catch (err) {
-        console.error(err);
-        res.json({
-            success: false,
-            message: 'Server error'
-        });
-    }
-}
-
-module.exports = { register };

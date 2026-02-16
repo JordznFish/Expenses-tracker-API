@@ -1,10 +1,71 @@
 const pool = require('../../db/db');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-// We assume we're using GET/POST method
-// Before writting code logic, look at app.js and authRoutes
-// GOAL: return a callback function for app.use('/auth', function) in app.js
+// STEP 2 GOAL: Authenticate existing users and issue JWT token.
+const login = (async (req, res) => {
+    try {
+        // Extract Input from HTML
+        const { email, password } = req.body || {};
 
+        // Validate the user input
+        if (!email || !password) {
+            return res.json({
+                success: false,
+                message: "Invalid input!"
+            });
+        };
+
+        // Query DB to match 
+        const existingUser = await pool.query(
+            'SELECT * FROM users WHERE email = $1', [email]
+        );
+        
+        // EDGE CASE: No existing user
+        if (existingUser.rows.length === 0) {
+            return res.json({
+                success: false,
+                message: 'Unknown email.'
+            })
+        }
+
+        const user = existingUser.rows[0];
+
+        // Compare password (bcrypt.compare)
+        const isMatch = await bcrypt.compare(password, user.password_hash);
+
+        if (!isMatch) {
+            return res.json({
+                success: false,
+                message: 'Wrong password!'
+            });
+        };
+
+        // Generate JWT Token
+        // JWT structure: header.payload.signature
+        const token = jwt.sign(
+            {userId: user.id}, // payload (obj)
+            process.env.SECRET_KEY, // secret (string)
+            {expiresIn: '1h'} // options (obj)
+        );
+
+        //Return token as result
+        return res.json({
+            success: true,
+            message: 'Login successful!',
+            token
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.json({
+            success: false,
+            message: 'Server error'
+        });
+    }
+})
+
+// STEP 1 GOAL: return a callback function for app.use('/auth', function) in app.js
 const register = (async (req, res) => {
     try {
         //Get user info from HTML
@@ -13,7 +74,7 @@ const register = (async (req, res) => {
         //Edge case, if one of them are empty
         if (!email || !password) {
             return res.json({
-                status: false,
+                success: false,
                 message: 'Username and Password are required!'
             });
         }
@@ -28,7 +89,7 @@ const register = (async (req, res) => {
 
         if (existingUser.rows.length > 0) {
             return res.json({
-                status: false,
+                success: false,
                 message: 'User already exists!'
             });
         }
@@ -47,7 +108,7 @@ const register = (async (req, res) => {
         );
 
         return res.json({
-            status: true,
+            success: true,
             message: 'User registered successfully!',
             data: result.rows[0]
         });
@@ -55,10 +116,10 @@ const register = (async (req, res) => {
     } catch (err) {
         console.error(err);
         return res.json({
-            status: false,
+            success: false,
             message: err
         });
     }
 })
 
-module.exports = { register };
+module.exports = { register, login };

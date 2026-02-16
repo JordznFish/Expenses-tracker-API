@@ -20,8 +20,8 @@ FOUNDATION
 │     └── Health check verification [DONE]
 │
 ├── Phase 3: Authentication Layer 
-│     ├── Register (validation → hash → insert) [CURRENT STAGE]
-│     ├── Login (query → compare → JWT)
+│     ├── Register (validation → hash → insert) [DONE]
+│     ├── Login (query → compare → JWT) [CURR]
 │     ├── Auth middleware
 │     └── Protected test route
 │
