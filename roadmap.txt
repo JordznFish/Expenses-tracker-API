@@ -20,10 +20,10 @@ FOUNDATION
 │     └── Health check verification [DONE]
 │
 ├── Phase 3: Authentication Layer 
-│     ├── Register (validation → hash → insert) [DONE]
-│     ├── Login (query → compare → JWT) [CURR]
-│     ├── Auth middleware
-│     └── Protected test route
+│     ├── Register (validation → hash → insert) [DONE]  
+│     ├── Login (query → compare → JWT) [DONE]  
+│     ├── Auth middleware [DONE]  
+│     └── Protected test route [DONE]  
 │
 ├── Phase 4: Expense CRUD (Secured)
 │     ├── Create expense
