@@ -78,5 +78,20 @@ Work flow:
    - bcrypt.compare(plainText, hashed_Password in db) => returns Promise<boolean> 
 
 ### Phase 3 - Step 3: Auth middleware (JWT verification)
-=> Allow request or reject request to protect user data 
+=> Allow request or reject request to protect user data  
+=> Use Interface Design: Define API contract first  
 
+Work Flow:
+1. Read Authorization header
+2. Ensure it follows "Bearer <token>" format
+3. Extract token
+4. Verify token using JWT_SECRET
+5. Attach decoded payload to req.user
+6. Call next() if valid
+7. Return 401 if invalid or missing
+**Key takeaways** 
+1) Controllers vs Middleware 
+   Controllers: aysnc, because it talks to the database  
+   Middleware: usually stays sync, keeps whole operation clean  
+2) JWT method
+   - jwt.verify(token, secret) => Check the token is real and hasn't 

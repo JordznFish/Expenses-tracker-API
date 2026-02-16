@@ -5,6 +5,7 @@ const express = require('express');
 const pool = require('../db/db');
 const app = express();
 const authRoutes = require('../src/routes/authRoutes');
+const authMiddleware = require('../src/middlewares/auth.middleware');
 
 //Middleware: Translator for express: HTTP request (string) -> json object
 app.use(express.json());
@@ -31,6 +32,15 @@ app.get('/health', (req, res) => {
 
 // TODO: Import your real routes here later (e.g., app.use('/api/expenses', expenseRoutes))
 app.use('/auth', authRoutes);
+
+//Imagine front-end redirects the user to this URL after logging in
+app.get('/protected', authMiddleware, (req, res) => {
+    res.json({
+        success: true,
+        message: 'Access granted',
+        user: req.user
+    });
+});
 
 // START SERVER
 const PORT = process.env.PORT || 3000;
