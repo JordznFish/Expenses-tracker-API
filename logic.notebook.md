@@ -49,34 +49,34 @@
  * INSERT INTO <table_name> (column, ...) VALUES (value, ...)
  */
 
-### Phase 3 - Step 1: Registration
-Work flow: auth.controller.js -> authRoutes.js -> app.js
-**Key takeaways:**
-1) app.query() must come with await
-2) bcrypt.hash() must come with await
-3) json file only accepts "" double quotes, on both data and value 
-4) wrap multiple functions or data in a object to export
+### Phase 3 - Step 1: Registration 
+Work flow: auth.controller.js -> authRoutes.js -> app.js 
+**Key takeaways:** 
+1) app.query() must come with await 
+2) bcrypt.hash() must come with await 
+3) json file only accepts "" double quotes, on both data and value  
+4) wrap multiple functions or data in a object to export 
 
-### Phase 3 - Step 2: Login + JWT Issuance 
-Work flow:
-1. Receive email + password
-2. Validate Input
-3. Query user from DB
-4. Compare password (bcrypt.compare)
-5. Generate JWT
-6. Return token
-**Key takeaways**
-1) JWT Methods 
-   jwt.sign(payload, secret, option) => Creating the token
-      payload: an object containing user info. E.g. {id: 1}
-      secret: A private string used to lock the token
-      options: Usually {expiresIn: 'time'}
-   jwt.verify(token, secret) => Check the token is real and hasn't expired
-      token: 
-      secret
-2) Bcrypt Methods
-   bcrypt.compare(plainText, hashed_Password in db) => returns Promise<boolean>
+### Phase 3 - Step 2: Login + JWT Issuance  
+Work flow: 
+1. Receive email + password 
+2. Validate Input 
+3. Query user from DB 
+4. Compare password (bcrypt.compare) 
+5. Generate JWT 
+6. Return token 
+**Key takeaways** 
+1) JWT Methods  
+   jwt.sign(payload, secret, option) => Creating the token 
+      payload: an object containing user info. E.g. {id: 1} 
+      secret: A private string used to lock the token 
+      options: Usually {expiresIn: 'time'} 
+   jwt.verify(token, secret) => Check the token is real and hasn't expired 
+      token:  
+      secret 
+2) Bcrypt Methods 
+   bcrypt.compare(plainText, hashed_Password in db) => returns Promise<boolean> 
 
-### Phase 3 - Step 3: Auth middleware (JWT verification)
-=> Allow request or reject request to protect user data
+### Phase 3 - Step 3: Auth middleware (JWT verification) 
+=> Allow request or reject request to protect user data 
 
