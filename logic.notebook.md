@@ -89,9 +89,27 @@ Work Flow:
 5. Attach decoded payload to req.user
 6. Call next() if valid
 7. Return 401 if invalid or missing
+
 **Key takeaways** 
 1) Controllers vs Middleware 
    Controllers: aysnc, because it talks to the database  
    Middleware: usually stays sync, keeps whole operation clean  
 2) JWT method
    - jwt.verify(token, secret) => Check the token is real and hasn't 
+
+### Phase 4 - Step 1: Create Expense
+Work Flow:
+1. Require JWT (middleware) 
+2. Extract userId from req.user
+3. Extract expense fields from req.body
+4. Validate required fields
+5. Insert into DB
+6. Return created expense
+
+**Key takeaways**
+REST STYLE
+POST   /expenses
+GET    /expenses
+PUT    /expenses/:id
+DELETE /expenses/:id
+

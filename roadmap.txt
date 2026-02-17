@@ -26,10 +26,10 @@ FOUNDATION
 │     └── Protected test route [DONE]  
 │
 ├── Phase 4: Expense CRUD (Secured)
-│     ├── Create expense
-│     ├── Get expenses (user scoped)
-│     ├── Update expense
-│     ├── Delete expense
+│     ├── Create expense(POST) [DONE]
+│     ├── Get expenses(GET)
+│     ├── Update expense(PUT)
+│     ├── Delete expense(DELETE)
 │     ├── JOIN with categories
 │     └── Filtering & pagination
 │
