@@ -27,7 +27,7 @@ FOUNDATION
 │
 ├── Phase 4: Expense CRUD (Secured)
 │     ├── Create expense(POST) [DONE]
-│     ├── Get expenses(GET)
+│     ├── Get expenses(GET) [CURR]
 │     ├── Update expense(PUT)
 │     ├── Delete expense(DELETE)
 │     ├── JOIN with categories

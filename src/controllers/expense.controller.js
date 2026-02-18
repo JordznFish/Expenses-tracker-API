@@ -1,6 +1,6 @@
 /**
  * ============================================================
- * PHASE 4 — CREATE EXPENSE
+ * CREATE EXPENSE
  * ============================================================
  *
  * GOAL:
@@ -69,6 +69,70 @@ const createExpense = async (req, res) => {
     }
 };
 
-module.exports = { createExpense };
+/**
+ * ============================================================
+ * GET EXPENSES (USER SCOPED)
+ * ============================================================
+ *
+ * GOAL:
+ * Return only expenses belonging to authenticated user.
+ *
+ * FLOW:
+ * 1. Require JWT
+ * 2. Extract userId from req.user
+ * 3. Query DB for expenses WHERE user_id = userId
+ * 4. Join categories to show category name
+ * 5. Return result
+ *
+ * OPTIONAL FILTERS:
+ * - startDate
+ * - endDate
+ * - category_id
+ *
+ * SECURITY RULE:
+ * - NEVER return other users' data
+ * 
+ * STATUS CODES:
+ * 201 → Created
+ * 400 → Validation error
+ * 401 → Unauthorized
+ * 500 → Server error
+ */
+
+const getExpense = async (req, res) => {
+    try {
+        const userId = req.user.userId;
+        
+        const result = await pool.query(
+            `SELECT
+                e.id,
+                e.amount,
+                e.description,
+                e.expense_date::TEXT AS expense_date,
+                c.name AS category
+             FROM expenses e
+             LEFT JOIN categories c
+             ON e.category_id = c.id
+             WHERE $1 = e.user_id
+             ORDER BY e.expense_date DESC;`,
+            [userId]
+        );
+
+        return res.status(200).json({
+            success: true,
+            count: result.rows.length,
+            data: result.rows
+        });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error'
+        });
+    }
+};
+
+module.exports = { createExpense, getExpense };
 
 

@@ -97,7 +97,7 @@ Work Flow:
 2) JWT method
    - jwt.verify(token, secret) => Check the token is real and hasn't 
 
-### Phase 4 - Step 1: Create Expense
+### Phase 4 - Step 1: Create Expense (User scope)
 Work Flow:
 1. Require JWT (middleware) 
 2. Extract userId from req.user
@@ -112,4 +112,8 @@ POST   /expenses
 GET    /expenses
 PUT    /expenses/:id
 DELETE /expenses/:id
+
+### Phase 4 - Step 2: Get Expense (User scope)
+Goal: Return user data from data base(pool.query)
+
 
